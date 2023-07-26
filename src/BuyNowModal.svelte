@@ -23,7 +23,7 @@
     export let connectWallet: () => void;
     export let networkId: NetworkChainIdf;
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
 
     let tokenListing: Token | null;
     let buyListingState: BuyListingState | null = null;
