@@ -1,0 +1,41 @@
+{
+  "name": "svelte-app",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@tsconfig/svelte": "^4.0.0",
+    "@types/node": "^16.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.8.1",
+    "mini-css-extract-plugin": "^2.6.0",
+    "prettier": "^2.8.8",
+    "prettier-plugin-svelte": "^2.10.1",
+    "style-loader": "^3.3.3",
+    "svelte": "^4.0.0",
+    "svelte-check": "^3.4.4",
+    "svelte-loader": "^3.1.9",
+    "svelte-preprocess": "^5.0.4",
+    "ts-loader": "^9.0.0",
+    "tslib": "^2.5.0",
+    "typescript": "^5.1.6",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack",
+    "dev": "webpack serve",
+    "validate": "svelte-check",
+    "build:css": "tailwindcss build -i src/global.css -o src/global.output.css"
+  },
+  "dependencies": {
+    "@reservoir0x/ethers-wallet-adapter": "^0.0.6",
+    "@reservoir0x/reservoir-sdk": "^1.1.18",
+    "abitype": "^0.9.3",
+    "autoprefixer": "^10.4.14",
+    "ethers": "^5.7.2",
+    "postcss": "^8.4.26",
+    "tailwindcss": "^3.3.3",
+    "viem": "~1.0.6",
+    "zod": "^3.21.4"
+  }
+}
