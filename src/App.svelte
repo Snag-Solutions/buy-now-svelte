@@ -32,6 +32,7 @@
     isOpen={showModal}
     contractAddress={'0x84047392538009c3d3da0aa76a098b44e1ea5771'}
     tokenId={'32'}
+    networkId={'polygon'}
     {onOpenChange}
     {connectWallet}
     {connectedAccount}
