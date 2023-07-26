@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import BuyNowModal from './BuyNowModal.svelte';
     import { ethers } from 'ethers';
 
@@ -8,6 +9,10 @@
     function onOpenChange() {
         showModal = !showModal;
     }
+
+    onMount(() => {
+        connectWallet();
+    });
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -34,6 +39,5 @@
     tokenId={'32'}
     networkId={'polygon'}
     {onOpenChange}
-    {connectWallet}
     {connectedAccount}
 />

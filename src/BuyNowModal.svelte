@@ -20,7 +20,6 @@
     export let contractAddress: string;
     export let tokenId: string;
     export let connectedAccount: string;
-    export let connectWallet: () => void;
     export let networkId: NetworkChainIdf;
 
     const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
@@ -58,8 +57,6 @@
     }
 
     onMount(async () => {
-        connectWallet();
-
         window.ethereum.on('accountsChanged', (accounts: string[]) => {
             connectedAccount = accounts[0];
         });
