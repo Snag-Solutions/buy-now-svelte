@@ -30,8 +30,8 @@
 
 <BuyNowModal
     isOpen={showModal}
-    contractAddress={'0x4b15a9c28034dc83db40cd810001427d3bd7163d'}
-    tokenId={'12821'}
+    contractAddress={'0x84047392538009c3d3da0aa76a098b44e1ea5771'}
+    tokenId={'32'}
     {onOpenChange}
     {connectWallet}
     {connectedAccount}

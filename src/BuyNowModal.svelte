@@ -2,7 +2,7 @@
     import { Button, Modal, RarityRank } from './components';
     import { BuyListingState, convertReservoirToken, type Token } from './types/generic';
     import { formatAmount, formatDollar } from './lib/numbers';
-    import { ethers, providers } from 'ethers';
+    import { ethers } from 'ethers';
     import { onMount } from 'svelte';
     import { createClient, type Execute } from '@reservoir0x/reservoir-sdk';
     import { adaptEthersSigner } from '@reservoir0x/ethers-wallet-adapter';
@@ -21,10 +21,11 @@
     let tokenListing: Token | null;
     let buyListingState: BuyListingState | null = null;
     let balanceInEther: string;
-    let chainId: number | null;
+    let chainId: number | null = null;
     let errors: string[] = [];
     let buyTxHash: string | undefined;
     let isLoadingToken = false;
+    let apiUrl: string = 'https://api.reservoir.tools';
 
     let shareLink = 'https://twitter.com/intent/tweet?text=Letsgoo';
 
@@ -32,10 +33,19 @@
         fetchToken();
     }
 
+    $: if (chainId) {
+        if (chainId === 1) {
+            apiUrl = 'https://api.reservoir.tools';
+        } else if (chainId === 137) {
+            apiUrl = 'https://api-polygon.reservoir.tools';
+        }
+    }
+
     $: if (provider) {
         const getChainId = async () => {
             const res = await provider.getNetwork();
             chainId = res.chainId;
+            console.log({ chainId });
         };
         getChainId();
     }
@@ -51,7 +61,7 @@
     const fetchToken = async () => {
         isLoadingToken = true;
         const response = await fetch(
-            `https://api.reservoir.tools/tokens/v6?tokenSetId=token:${contractAddress}:${tokenId}`,
+            `${apiUrl}/tokens/v6?tokenSetId=token:${contractAddress}:${tokenId}`,
         );
         const data = await response.json();
 
@@ -79,11 +89,13 @@
                 return {
                     active: chainId === id,
                     id,
-                    baseApiUrl: `https://api.reservoir.tools`,
+                    baseApiUrl: apiUrl,
                     default: EthereumMainnetChain.id === id,
                 };
             }),
         });
+
+        buyListingState = BuyListingState.Created;
 
         try {
             errors = [];
@@ -110,6 +122,7 @@
                     errors = [...errors, ...newErrors];
                 },
             });
+            buyListingState = BuyListingState.Success;
         } catch (error: any) {
             let newError = error?.message ?? 'Something went wrong.';
             if (error?.code === 4001) {
@@ -134,20 +147,27 @@
 </script>
 
 {#if isOpen}
-    <Modal on:close={onOpenChange} modalOpen={isOpen}>
+    <Modal
+        on:close={() => {
+            buyListingState = null;
+            errors = [];
+            onOpenChange();
+        }}
+        modalOpen={isOpen}
+    >
         <svelte:fragment slot="header">
             {modalTitle}
         </svelte:fragment>
         <div slot="body">
+            {#if errors.length > 0}
+                {#each errors.filter((value, index, array) => array.indexOf(value) === index) as message}
+                    <span>{message}</span>
+                {/each}
+            {/if}
             {#if !buyListingState}
                 {#if tokenListing}
                     {#if tokenListing?.reservoirListing}
                         <div class="">
-                            {#if errors.length > 0}
-                                {#each errors.filter((value, index, array) => array.indexOf(value) === index) as message}
-                                    <span>{message}</span>
-                                {/each}
-                            {/if}
                             <div class="flex gap-6">
                                 <img
                                     class="h-24 w-24 rounded"
@@ -168,11 +188,11 @@
                                         <span class="flex flex-row items-center"
                                             ><span class="text-primary-text font-semibold"
                                                 >{formatAmount(
-                                                    `${tokenListing?.reservoirListing?.price.amount.native}`,
-                                                    2,
+                                                    `${tokenListing?.reservoirListing?.price.amount.decimal}`,
+                                                    4,
                                                 )}</span
                                             ><img
-                                                src={`https://api.reservoir.tools/redirect/currency/${tokenListing?.reservoirListing?.price.currency.contract}/icon/v1`}
+                                                src={`${apiUrl}/redirect/currency/${tokenListing?.reservoirListing?.price.currency.contract}/icon/v1`}
                                                 class="ml-1 h-4 rounded-full"
                                                 alt="ETH"
                                             /><span
@@ -306,7 +326,7 @@
             {/if}
         </div>
         <svelte:fragment slot="footer">
-            {#if buyListingState !== BuyListingState.Success}
+            {#if !buyListingState}
                 {#if connectedAccount}
                     <div class="flex flex-row items-center gap-2 mr-auto">
                         <div class="text-sm font-semibold uppercase text-secondary-text">
@@ -317,7 +337,7 @@
                                 ><span class="text-primary-text font-semibold"
                                     >{formatAmount(balanceInEther, 2)}</span
                                 ><img
-                                    src="https://api.reservoir.tools/redirect/currency/0x0000000000000000000000000000000000000000/icon/v1"
+                                    src={`${apiUrl}/redirect/currency/0x0000000000000000000000000000000000000000/icon/v1`}
                                     class="ml-1 h-4 rounded-full"
                                     alt="currency_icon"
                                 /></span

@@ -12,7 +12,7 @@
         'cursor-pointer whitespace-nowrap rounded-full border border-solid font-semibold outline-none transition disabled:pointer-events-none disabled:cursor-default disabled:opacity-50 h-fit',
         isPrimary ? 'bg-primary hover:bg-primary-hover' : 'bg-secondary hover:bg-secondary-hover',
         isPrimary ? 'border-transparent' : 'border-separator',
-        isPrimary ? 'text-over-text' : 'text-primary-text',
+        isPrimary ? 'text-over-text disabled:text-over-text' : 'text-primary-text',
         className,
     ].join(' ');
 </script>

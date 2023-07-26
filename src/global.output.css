@@ -1160,6 +1160,11 @@ button:focus {
   cursor: default;
 }
 
+.disabled\:text-over-text:disabled {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 .disabled\:opacity-50:disabled {
   opacity: 0.5;
 }
