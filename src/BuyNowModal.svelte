@@ -194,7 +194,7 @@
                                             ><img
                                                 src={`${apiUrl}/redirect/currency/${tokenListing?.reservoirListing?.price.currency.contract}/icon/v1`}
                                                 class="ml-1 h-4 rounded-full"
-                                                alt="ETH"
+                                                alt="Currency icon for listing"
                                             /><span
                                                 class="text-secondary-text ml-2 align-middle text-lg font-semibold"
                                                 >{formatDollar(
@@ -212,7 +212,7 @@
                                     <img
                                         src={tokenListing?.reservoirListing?.sourceIcon}
                                         class="h-6 w-6"
-                                        alt="Original listing"
+                                        alt={`Original listing on ${tokenListing?.reservoirListing?.source}`}
                                     />
                                     <div class="text-primary-text">
                                         Original listing on
@@ -286,7 +286,7 @@
                                 <div class="relative h-0 overflow-hidden bg-black pt-[100%]">
                                     <img
                                         src={tokenListing?.image}
-                                        alt="Token #7737"
+                                        alt={tokenListing?.name}
                                         class="absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 z-0 object-contain"
                                         style="height: 100%; width: auto;"
                                     />
@@ -339,7 +339,7 @@
                                 ><img
                                     src={`${apiUrl}/redirect/currency/0x0000000000000000000000000000000000000000/icon/v1`}
                                     class="ml-1 h-4 rounded-full"
-                                    alt="currency_icon"
+                                    alt="Currency Icon for balance"
                                 /></span
                             >
                         </div>
