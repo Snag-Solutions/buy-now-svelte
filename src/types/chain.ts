@@ -12,7 +12,8 @@ export type NetworkChainIdf =
     | 'avalanche'
     | 'avalancheFuji'
     | 'fantom'
-    | 'fantomTestnet';
+    | 'fantomTestnet'
+    | 'zksync';
 
 type ChainIdByNetwork = {
     [key in NetworkChainIdf]: number;
@@ -33,6 +34,7 @@ export const ChainIdByNetwork = {
     fantom: 250 as const,
     fantomTestnet: 4002 as const,
     avalancheFuji: 43113 as const,
+    zksync: 324 as const,
 };
 
 export const ChainNameByNetwork: { [key in NetworkChainIdf]: string } = {
@@ -50,6 +52,7 @@ export const ChainNameByNetwork: { [key in NetworkChainIdf]: string } = {
     avalancheFuji: 'Avalanche Fuji Testnet',
     fantom: 'Fantom',
     fantomTestnet: 'Fantom Testnet',
+    zksync: 'zkSync Era',
 };
 
 export type NetworkChain = {
@@ -127,6 +130,14 @@ export const AvalancheChain: NetworkChain = {
     coloredIcon: '/icons/avalanche-colored.svg',
 };
 
+export const ZkSyncChain: NetworkChain = {
+    id: ChainIdByNetwork.zksync,
+    name: ChainNameByNetwork.zksync,
+    network: 'zksync',
+    icon: '/icons/zksync.svg',
+    coloredIcon: '/icons/zksync-colored.svg',
+};
+
 export const AllNetworkChains = [
     GoerliTestnetChain,
     EthereumMainnetChain,
@@ -137,4 +148,5 @@ export const AllNetworkChains = [
     AvalancheChain,
     OptimismChain,
     OptimismGoerliChain,
+    ZkSyncChain,
 ];

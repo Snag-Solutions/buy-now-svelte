@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { Button, Modal, RarityRank } from './components';
-    import { BuyListingState, convertReservoirToken, type Token } from './types/generic';
-    import { formatAmount, formatDollar } from './lib/numbers';
+    import { adaptEthersSigner } from '@reservoir0x/ethers-wallet-adapter';
+    import { createClient, type Execute } from '@reservoir0x/reservoir-sdk';
     import { ethers } from 'ethers';
     import { onMount } from 'svelte';
-    import { createClient, type Execute } from '@reservoir0x/reservoir-sdk';
-    import { adaptEthersSigner } from '@reservoir0x/ethers-wallet-adapter';
+    import { Button, Modal, RarityRank } from './components';
+    import { CheckIcon, ExternalLinkIcon, SpinnerIcon, TwitterIcon } from './icons';
+    import { formatAmount, formatDollar } from './lib/numbers';
     import {
         AllNetworkChains,
         ChainIdByNetwork,
@@ -13,7 +13,7 @@
         EthereumMainnetChain,
         type NetworkChainIdf,
     } from './types/chain';
-    import { CheckIcon, ExternalLinkIcon, SpinnerIcon, TwitterIcon } from './icons';
+    import { BuyListingState, convertReservoirToken, type Token } from './types/generic';
 
     export let onOpenChange: () => void;
     export let isOpen: boolean;
@@ -39,6 +39,8 @@
 
         if (chainId === 1) {
             apiUrl = 'https://api.reservoir.tools';
+        } else if (chainId === 324) {
+            apiUrl = 'https://api-zksync.reservoir.tools';
         } else if (chainId === 137) {
             apiUrl = 'https://api-polygon.reservoir.tools';
         }
